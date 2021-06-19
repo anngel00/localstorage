@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
+// eslint-disable-next-line
+export default function App() {
+  const [value, setValue] = useState<number>(0);
+
+  const incHandler = () => {
+    setValue(value + 1);
+  };
+
+  const setLocalStorage = () => {
+    localStorage.setItem('counterValue', JSON.stringify(value));
+  };
+
+  const getLocalStorage = () => {
+    const valueAsString = localStorage.getItem('counterValue');
+    if (valueAsString) {
+      const newValue = JSON.parse(valueAsString);
+      setValue(newValue);
+    }
+  };
+
+  const clearLocalStorage = () => {
+    localStorage.clear();
+    setValue(0);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{value}</h1>
+      <button onClick={incHandler}>Inc</button>
+      <button onClick={setLocalStorage}>Set to LS</button>
+      <button onClick={getLocalStorage}>Get from LS</button>
+      <button onClick={clearLocalStorage}>Clear LS</button>
     </div>
   );
 }
-
-export default App;
